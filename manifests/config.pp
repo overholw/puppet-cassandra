@@ -18,6 +18,7 @@ class cassandra::config(
     $data_file_directories,
     $commitlog_directory,
     $saved_caches_directory,
+    $security_directory,
     $initial_token,
     $num_tokens,
     $seeds,
@@ -31,6 +32,8 @@ class cassandra::config(
     $internode_compression,
     $disk_failure_policy,
     $thread_stack_size,
+    $security_authenticator,
+    $security_authorizer,
 ) {
     group { 'cassandra':
         ensure  => present,

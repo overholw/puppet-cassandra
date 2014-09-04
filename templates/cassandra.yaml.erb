@@ -62,7 +62,7 @@ max_hints_delivery_threads: 2
 # - PasswordAuthenticator relies on username/password pairs to authenticate
 #   users. It keeps usernames and hashed passwords in system_auth.credentials table.
 #   Please increase system_auth keyspace replication factor if you use this authenticator.
-authenticator: org.apache.cassandra.auth.AllowAllAuthenticator
+authenticator: <%= @security_authenticator %>
 
 # Authorization backend, implementing IAuthorizer; used to limit access/provide permissions
 # Out of the box, Cassandra provides org.apache.cassandra.auth.{AllowAllAuthorizer,
@@ -71,7 +71,7 @@ authenticator: org.apache.cassandra.auth.AllowAllAuthenticator
 # - AllowAllAuthorizer allows any action to any user - set it to disable authorization.
 # - CassandraAuthorizer stores permissions in system_auth.permissions table. Please
 #   increase system_auth keyspace replication factor if you use this authorizer.
-authorizer: org.apache.cassandra.auth.AllowAllAuthorizer
+authorizer: <%= @security_authorizer %>
 
 # Validity period for permissions cache (fetching permissions can be an
 # expensive operation depending on the authorizer, CassandraAuthorizer is
@@ -284,7 +284,7 @@ concurrent_writes: <%= @concurrent_writes %>
 # while blocked. If you have a large heap and many data directories,
 # you can increase this value for better flush performance.
 # By default this will be set to the amount of data directories defined.
-#memtable_flush_writers: 1
+memtable_flush_writers: 2
 
 # the number of full memtables to allow pending flush, that is,
 # waiting for a writer thread.  At a minimum, this should be set to
@@ -652,9 +652,9 @@ index_interval: 128
 #
 server_encryption_options:
     internode_encryption: none
-    keystore: conf/.keystore
+    keystore: <%= $security_directory %>/.keystore
     keystore_password: cassandra
-    truststore: conf/.truststore
+    truststore: <%= $security_directory %>/.truststore
     truststore_password: cassandra
     # More advanced defaults below:
     # protocol: TLS
@@ -666,12 +666,12 @@ server_encryption_options:
 # enable or disable client/server encryption.
 client_encryption_options:
     enabled: false
-    keystore: conf/.keystore
+    keystore: <%= $security_directory %>/.keystore
     keystore_password: cassandra
-    # require_client_auth: false
+    require_client_auth: false
     # Set trustore and truststore_password if require_client_auth is true
-    # truststore: conf/.truststore
-    # truststore_password: cassandra
+    truststore: <%= $security_directory %>/.truststore
+    truststore_password: cassandra
     # More advanced defaults below:
     # protocol: TLS
     # algorithm: SunX509

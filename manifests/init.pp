@@ -30,6 +30,7 @@ class cassandra(
     $data_file_directories      = $cassandra::params::data_file_directories,
     $commitlog_directory        = $cassandra::params::commitlog_directory,
     $saved_caches_directory     = $cassandra::params::saved_caches_directory,
+    $security_directory         = $cassandra::params::security_directory,
     $initial_token              = $cassandra::params::initial_token,
     $num_tokens                 = $cassandra::params::num_tokens,
     $seeds                      = $cassandra::params::seeds,
@@ -44,18 +45,23 @@ class cassandra(
     $disk_failure_policy        = $cassandra::params::disk_failure_policy,
     $thread_stack_size          = $cassandra::params::thread_stack_size,
     $service_enable             = $cassandra::params::service_enable,
-    $service_ensure             = $cassandra::params::service_ensure
+    $service_ensure             = $cassandra::params::service_ensure,
+    $security_authenticator     = $cassandra::params::security_authenticator,
+    $security_authorizer        = $cassandra::params::security_authorizer
 ) inherits cassandra::params {
     # Validate input parameters
     validate_bool($include_repo)
 
     validate_absolute_path($commitlog_directory)
     validate_absolute_path($saved_caches_directory)
+    validate_absolute_path($security_directory)
 
     validate_string($cluster_name)
     validate_string($partitioner)
     validate_string($initial_token)
     validate_string($endpoint_snitch)
+    validate_string($security_authenticator)
+    validate_string($security_authorizer)
 
     validate_re($start_rpc, '^(true|false)$')
     validate_re($start_native_transport, '^(true|false)$')
@@ -81,8 +87,8 @@ class cassandra(
         fail('jmx_port must be a port number between 1 and 65535')
     }
 
-    if(!is_ip_address($listen_address)) {
-        fail('listen_address must be an IP address')
+    if(!is_ip_address($listen_address) or !validate_string($listen_address)) {
+        fail('listen_address must be an IP address or hostname')
     }
 
     if(!empty($broadcast_address) and !is_ip_address($broadcast_address)) {
@@ -156,6 +162,7 @@ class cassandra(
         data_file_directories      => $data_file_directories,
         commitlog_directory        => $commitlog_directory,
         saved_caches_directory     => $saved_caches_directory,
+        security_directory         => $security_directory,
         initial_token              => $initial_token,
         num_tokens                 => $num_tokens,
         seeds                      => $seeds,
@@ -169,6 +176,9 @@ class cassandra(
         internode_compression      => $internode_compression,
         disk_failure_policy        => $disk_failure_policy,
         thread_stack_size          => $thread_stack_size,
+        security_authenticator     => $security_authenticator,
+        security_authorizer        => $security_authorizer,
+
     }
 
     class { 'cassandra::service':

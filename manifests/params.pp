@@ -86,7 +86,7 @@ class cassandra::params {
             }
         }
         default: {
-            fail("Unsupported osfamily: ${::osfamily}, operatingsystem: ${::operatingsystem}, module ${module_name} only supports osfamily Debian")
+            fail("Unsupported osfamily: ${::osfamily}, operatingsystem: ${::operatingsystem}, module ${module_name} only supports osfamily Debian and RedHat")
         }
     }
 
@@ -168,6 +168,11 @@ class cassandra::params {
     $saved_caches_directory = $::cassandra_saved_caches_directory ? {
         undef   => '/var/lib/cassandra/saved_caches',
         default => $::cassandra_saved_caches_directory,
+    }
+
+    $security_directory = $::cassandra_security_directory ? {
+        undef   => 'conf',
+        default => $::cassandra_security_directory,
     }
 
     $initial_token = $::cassandra_initial_token ? {
@@ -261,4 +266,15 @@ class cassandra::params {
         undef   => 'running',
         default => $::cassandra_service_ensure,
     }
+
+    $security_authenticator = $::cassandra_security_authenticator ? {
+        undef   => 'org.apache.cassandra.auth.AllowAllAuthenticator',
+        default => $::cassandra_security_authenticator,
+    }
+
+    $security_authorizer = $::cassandra_security_authorizer ? {
+        undef   => 'org.apache.cassandra.auth.AllowAllAuthorizer',
+        default => $::cassandra_security_authorizer,
+    }
+
 }
