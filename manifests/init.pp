@@ -87,8 +87,8 @@ class cassandra(
         fail('jmx_port must be a port number between 1 and 65535')
     }
 
-    if(!is_ip_address($listen_address) or !validate_string($listen_address)) {
-        fail('listen_address must be an IP address or hostname')
+    if(!is_ip_address($listen_address) or ($listen_address != 'localhost$')) {
+        fail('listen_address must be an IP address or localhost')
     }
 
     if(!empty($broadcast_address) and !is_ip_address($broadcast_address)) {
