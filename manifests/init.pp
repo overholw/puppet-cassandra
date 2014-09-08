@@ -54,7 +54,7 @@ class cassandra(
 
     validate_absolute_path($commitlog_directory)
     validate_absolute_path($saved_caches_directory)
-    validate_absolute_path($security_directory)
+#    validate_absolute_path($security_directory)
 
     validate_string($cluster_name)
     validate_string($partitioner)
@@ -62,6 +62,7 @@ class cassandra(
     validate_string($endpoint_snitch)
     validate_string($security_authenticator)
     validate_string($security_authorizer)
+    validate_string($security_directory)
 
     validate_re($start_rpc, '^(true|false)$')
     validate_re($start_native_transport, '^(true|false)$')
