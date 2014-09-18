@@ -218,7 +218,7 @@ class cassandra::params {
     }
 
     $endpoint_snitch = $::cassandra_endpoint_snitch ? {
-        undef   => 'SimpleSnitch',
+        undef   => 'GossipingPropertyFileSnitch',
         default => $::cassandra_endpoint_snitch,
     }
 
@@ -233,7 +233,7 @@ class cassandra::params {
     }
 
     $start_native_transport = $::cassandra_start_native_transport ? {
-        undef   => 'false',
+        undef   => 'true',
         default => $::cassandra_start_native_transport,
     }
 
@@ -268,12 +268,12 @@ class cassandra::params {
     }
 
     $security_authenticator = $::cassandra_security_authenticator ? {
-        undef   => 'org.apache.cassandra.auth.AllowAllAuthenticator',
+        undef   => 'PasswordAuthenticator',
         default => $::cassandra_security_authenticator,
     }
 
     $security_authorizer = $::cassandra_security_authorizer ? {
-        undef   => 'org.apache.cassandra.auth.AllowAllAuthorizer',
+        undef   => 'CassandraAuthorizer',
         default => $::cassandra_security_authorizer,
     }
 
