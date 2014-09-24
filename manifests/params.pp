@@ -141,7 +141,7 @@ class cassandra::params {
     }
 
     $rpc_server_type = $::cassandra_rpc_server_type ? {
-        undef   => 'hsha',
+        undef   => 'sync',
         default => $::cassandra_rpc_server_type,
     }
 
