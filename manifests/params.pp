@@ -185,13 +185,15 @@ class cassandra::params {
         default => $::cassandra_seeds,
     }
 
-    $default_concurrent_reads = $::processorcount * 8
+#    $default_concurrent_reads = $::processorcount * 8
+    $default_concurrent_reads = 32
     $concurrent_reads = $::cassandra_concurrent_reads ? {
         undef   => $default_concurrent_reads,
         default => $::cassandra_concurrent_reads,
     }
 
-    $default_concurrent_writes = $::processorcount * 8
+#    $default_concurrent_writes = $::processorcount * 8
+    $default_concurrent_writes = 32
     $concurrent_writes = $::cassandra_concurrent_writes ? {
         undef   => $default_concurrent_writes,
         default => $::cassandra_concurrent_writes,
