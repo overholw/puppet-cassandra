@@ -81,7 +81,7 @@ class cassandra::params {
             }
 
             $config_path = $::cassandra_config_path ? {
-                undef   => '/etc/cassandra/conf',
+                undef   => '/etc/dse/cassandra',
                 default => $::cassandra_config_path,
             }           
         }
