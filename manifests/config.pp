@@ -67,4 +67,8 @@ class cassandra::config(
         ensure  => file,
         content => template("${module_name}/cassandra.yaml.erb"),
     }
+    file { "${dse_config_path}/dse.yaml":
+        ensure  => file,
+        content => template("${module_name}/dse.yaml.erb"),
+    }
 }
