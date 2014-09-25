@@ -125,8 +125,7 @@ class cassandra(
     }
 
     $dse_delegated_snitch = $endpoint_snitch ? {
-      'GossipingPropertyFileSnitch'               => 'org.apache.cassandra.locator.GossipingPropertyFileSnitch',
-      'com.datastax.bdp.snitch.DseDelegateSnitch' => 'com.datastax.bdp.snitch.DseSimpleSnitch',
+      'com.datastax.bdp.snitch.DseDelegateSnitch' => 'org.apache.cassandra.locator.GossipingPropertyFileSnitch',
       default                                     => 'com.datastax.bdp.snitch.DseSimpleSnitch',
     }
     
