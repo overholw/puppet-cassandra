@@ -48,8 +48,6 @@ class cassandra(
     $service_ensure             = $cassandra::params::service_ensure,
     $security_authenticator     = $cassandra::params::security_authenticator,
     $security_authorizer        = $cassandra::params::security_authorizer,
-    $dse_delegated_snitch       = $cassandra::params::dse_delegated_snitch,
-    $dse_config_path            = $cassandra::params::dse_config_path
 ) inherits cassandra::params {
     # Validate input parameters
     validate_bool($include_repo)
@@ -125,6 +123,18 @@ class cassandra(
     if(!empty($initial_token)) {
         notice("Starting with Cassandra 1.2 you shouldn't set an initial_token but set num_tokens accordingly.")
     }
+
+    $dse_delegated_snitch = $endpoint_snitch ? {
+      'GossipingPropertyFileSnitch'               => 'org.apache.cassandra.locator.GossipingPropertyFileSnitch',
+      'com.datastax.bdp.snitch.DseDelegateSnitch' => 'com.datastax.bdp.snitch.DseSimpleSnitch',
+      default                                     => 'com.datastax.bdp.snitch.DseSimpleSnitch',
+    }
+    
+    $dse_config_path = $config_path ? {
+      '/tmp'               => '/tmp',
+      '/etc/dse/cassandra' => '/etc/dse',
+      default              => $config_path,
+    }           
 
     # Anchors for containing the implementation class
     anchor { 'cassandra::begin': }

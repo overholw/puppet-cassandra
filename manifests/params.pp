@@ -279,16 +279,4 @@ class cassandra::params {
         default => $::cassandra_security_authorizer,
     }
 
-    $dse_delegated_snitch = $endpoint_snitch ? {
-      'GossipingPropertyFileSnitch'               => 'org.apache.cassandra.locator.GossipingPropertyFileSnitch',
-      'com.datastax.bdp.snitch.DseDelegateSnitch' => 'com.datastax.bdp.snitch.DseSimpleSnitch',
-      default                                     => 'com.datastax.bdp.snitch.DseSimpleSnitch',
-    }
-    
-    $dse_config_path = $config_path ? {
-      '/tmp'               => '/tmp',
-      '/etc/dse/cassandra' => '/etc/dse',
-      default              => $config_path,
-    }           
-
 }
