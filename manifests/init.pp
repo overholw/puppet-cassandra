@@ -47,7 +47,9 @@ class cassandra(
     $service_enable             = $cassandra::params::service_enable,
     $service_ensure             = $cassandra::params::service_ensure,
     $security_authenticator     = $cassandra::params::security_authenticator,
-    $security_authorizer        = $cassandra::params::security_authorizer
+    $security_authorizer        = $cassandra::params::security_authorizer,
+    $dse_delegated_snitch       = $cassandra::params::dse_delegated_snitch,
+    $dse_config_path            = $cassandra::params::dse_config_path
 ) inherits cassandra::params {
     # Validate input parameters
     validate_bool($include_repo)
@@ -179,7 +181,8 @@ class cassandra(
         thread_stack_size          => $thread_stack_size,
         security_authenticator     => $security_authenticator,
         security_authorizer        => $security_authorizer,
-
+        dse_delegated_snitch       => $dse_delegated_snitch,
+        dse_config_path            => $dse_config_path
     }
 
     class { 'cassandra::service':

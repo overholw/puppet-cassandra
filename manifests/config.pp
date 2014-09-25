@@ -34,6 +34,8 @@ class cassandra::config(
     $thread_stack_size,
     $security_authenticator,
     $security_authorizer,
+    $dse_delegated_snitch,
+    $dse_config_path,
 ) {
     group { 'cassandra':
         ensure  => present,

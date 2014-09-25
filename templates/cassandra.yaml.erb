@@ -305,7 +305,11 @@ ssl_storage_port: 7001
 
 # Address to broadcast to other Cassandra nodes
 # Leaving this blank will set it to the same value as listen_address
+<% if @broadcast_address %>
 broadcast_address: <%= @broadcast_address %>
+<% else %>
+# broadcast_address: 
+<% end %>
 
 # Internode authentication backend, implementing IInternodeAuthenticator;
 # used to allow/disallow connections from peer nodes.
